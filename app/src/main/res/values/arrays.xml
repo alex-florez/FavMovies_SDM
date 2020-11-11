@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_tipos_pelis">
+        <item>Sin definir</item>
+        <item>Acción</item>
+        <item>Aventuras</item>
+        <item>Dramáticas</item>
+        <item>De terror</item>
+        <item>Musicales</item>
+        <item>Ciencia Ficción</item>
+        <item>De guerra</item>
+        <item>Comedias</item>
+        <item>Románticas</item>
+    </string-array>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+
+    <!-- Categoría Preference -->
+    <!-- Categoría Preference  entradas. Se podría usar el del spinner, pero he querido separarlo para que quedase claro que este
+     es de la preferencia -->
+    <string-array name="listapelis_entradas">
+        <item>Acción</item>
+        <item>Aventura</item>
+        <item>Drama</item>
+        <item>Ciencia Ficción</item>
+        <item>Fantasía</item>
+        <item>Animación</item>
+    </string-array>
+    <!-- Categoría Preference  valores -->
+    <string-array name="listapelis_valores">
+        <item>Acción</item>
+        <item>Aventura</item>
+        <item>Drama</item>
+        <item>Ciencia Ficción</item>
+        <item>Fantasía</item>
+        <item>Animación</item>
+    </string-array>
+</resources>
