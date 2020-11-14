@@ -16,9 +16,18 @@ import java.util.List;
 import es.uniovi.eii.sdm.ListaActoresAdapter;
 import es.uniovi.eii.sdm.ListaPeliculasAdapter;
 import es.uniovi.eii.sdm.R;
+import es.uniovi.eii.sdm.activities.MainRecycler;
 import es.uniovi.eii.sdm.datos.ActorsDataSource;
+import es.uniovi.eii.sdm.datos.server.ServerDataMapper;
+import es.uniovi.eii.sdm.datos.server.actorlist.Cast;
+import es.uniovi.eii.sdm.datos.server.actorlist.RepartoResult;
 import es.uniovi.eii.sdm.modelo.Actor;
 import es.uniovi.eii.sdm.modelo.Pelicula;
+import es.uniovi.eii.sdm.remote.ApiUtils;
+import es.uniovi.eii.sdm.remote.ThemoviedbApi;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActoresFragment extends Fragment {
 
@@ -26,6 +35,7 @@ public class ActoresFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private List<Actor> actores;
+    private int movieId;
 
     private RecyclerView recyclerView;
     private ListaActoresAdapter listaActoresAdapter;
@@ -34,6 +44,41 @@ public class ActoresFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private void loadReparto(){
+        ThemoviedbApi themoviedbApi = ApiUtils.createThemoviedbApi();
+        Call<RepartoResult> call = themoviedbApi.getReparto(this.movieId, MainRecycler.API_KEY);
+
+        Log.d("Hola", "HHola");
+        call.enqueue(new Callback<RepartoResult> () {
+            @Override
+            public void onResponse(Call<RepartoResult> call, Response<RepartoResult> response) {
+
+                switch (response.code()){
+                    case 200:
+                        RepartoResult data = response.body();
+                        List<Cast> casts = data.getCast();
+                        actores = ServerDataMapper.convertCastListToDomain(casts);
+                        listaActoresAdapter = new ListaActoresAdapter(actores, new ListaActoresAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(Actor item) {
+
+                            }
+                        });
+
+                        recyclerView.setAdapter(listaActoresAdapter);
+                        break;
+                    default:
+                        call.cancel();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RepartoResult> call, Throwable t) {
+                Log.e("CargarReparto", "Error al cargar el reparto: " + t.getMessage());
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,21 +93,16 @@ public class ActoresFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         Bundle args = getArguments();
-        int peliculaId = args.getInt("id_pelicula");
+        movieId = args.getInt("id_pelicula");
 
-        ActorsDataSource actorsDataSource = new ActorsDataSource(root.getContext());
-        actorsDataSource.open();
-        actores = actorsDataSource.actoresParticipantes(peliculaId);
-        actorsDataSource.close();
+        // Llamada a la API para obtener el reparto.
+        loadReparto();
+//        ActorsDataSource actorsDataSource = new ActorsDataSource(root.getContext());
+//        actorsDataSource.open();
+//        actores = actorsDataSource.actoresParticipantes(peliculaId);
+//        actorsDataSource.close();
         // Adapter
-        listaActoresAdapter = new ListaActoresAdapter(actores, new ListaActoresAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Actor item) {
 
-            }
-        });
-
-        recyclerView.setAdapter(listaActoresAdapter);
 
         // Referencias a componentes
         return root;

@@ -2,7 +2,6 @@ package es.uniovi.eii.sdm.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,20 +28,31 @@ import es.uniovi.eii.sdm.R;
 import es.uniovi.eii.sdm.datos.ActorsDataSource;
 import es.uniovi.eii.sdm.datos.PeliculasDataSource;
 import es.uniovi.eii.sdm.datos.RepartoPeliculaDataSource;
+import es.uniovi.eii.sdm.datos.server.movielist.MovieData;
+import es.uniovi.eii.sdm.datos.server.movielist.MovieListResult;
+import es.uniovi.eii.sdm.datos.server.ServerDataMapper;
 import es.uniovi.eii.sdm.modelo.Actor;
 import es.uniovi.eii.sdm.modelo.Categoria;
 import es.uniovi.eii.sdm.modelo.Pelicula;
 import es.uniovi.eii.sdm.modelo.RepartoPelicula;
+import es.uniovi.eii.sdm.remote.ApiUtils;
+import es.uniovi.eii.sdm.remote.ThemoviedbApi;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainRecycler extends AppCompatActivity {
 
     public static final String PELICULA_SELECCIONADA = "peliSeleccionada";
-
+    public static final String LANGUAGE = "es-ES";
+    public static final String API_KEY = "19fe58e2500350455b56639cc24da48f";
     public static String filtroCategoria = null;
 
     //Objetos para las notificaciones
     NotificationCompat.Builder mBuilder;
     NotificationManager mNotificationManager;
+
+    private ThemoviedbApi themoviedbApi;
 
 
 
@@ -55,7 +65,6 @@ public class MainRecycler extends AppCompatActivity {
 
 
     private class DownloadFilesTask extends AsyncTask<Void, Integer, String> {
-
         private float lineasALeer;
 
         protected int lineasFichero(String nombreFichero) {
@@ -76,6 +85,8 @@ public class MainRecycler extends AppCompatActivity {
             }catch(Exception e){};
             return lineas;
         }
+
+
 
 //        @Override
 //        protected void onPreExecute() {
@@ -146,39 +157,39 @@ public class MainRecycler extends AppCompatActivity {
 
         Log.d("FILTRO_CATEGORIA",  " " + filtroCategoria);
         // Rellenar base de datos con peliculas.
-        cargarPeliculas();
-        cargarReparto();
-        cargarPeliculasReparto();
+//        cargarPeliculas();
+//        cargarReparto();
+//        cargarPeliculasReparto();
 
         // Cargar reparto y repartoPeliculas
 
-        PeliculasDataSource peliculasDataSource = new PeliculasDataSource(getApplicationContext());
-        peliculasDataSource.open();
-        if(filtroCategoria == null){
-                listaPeli = peliculasDataSource.getAll();
-        } else {
-            listaPeli = peliculasDataSource.getFilteredPeliculas(filtroCategoria);
-        }
-        peliculasDataSource.close();
-
-        // Referencias a vistas
-        listaPeliView = (RecyclerView)findViewById(R.id.recycleView);
-        listaPeliView.setHasFixedSize(true);
-
-        // Establecer el layout manager al recycler view, para colocar los items uno debajo del otro
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        listaPeliView.setLayoutManager(layoutManager);
-
-        // Creamos el adapter
-        ListaPeliculasAdapter lpAdapter = new ListaPeliculasAdapter(listaPeli,
-                new ListaPeliculasAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Pelicula item) {
-                        clickOnItem(item);
-                    }
-                });
-
-        listaPeliView.setAdapter(lpAdapter);
+//        PeliculasDataSource peliculasDataSource = new PeliculasDataSource(getApplicationContext());
+//        peliculasDataSource.open();
+//        if(filtroCategoria == null){
+//                listaPeli = peliculasDataSource.getAll();
+//        } else {
+//            listaPeli = peliculasDataSource.getFilteredPeliculas(filtroCategoria);
+//        }
+//        peliculasDataSource.close();
+//
+//        // Referencias a vistas
+//        listaPeliView = (RecyclerView)findViewById(R.id.recycleView);
+//        listaPeliView.setHasFixedSize(true);
+//
+//        // Establecer el layout manager al recycler view, para colocar los items uno debajo del otro
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+//        listaPeliView.setLayoutManager(layoutManager);
+//
+//        // Creamos el adapter
+//        ListaPeliculasAdapter lpAdapter = new ListaPeliculasAdapter(listaPeli,
+//                new ListaPeliculasAdapter.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(Pelicula item) {
+//                        clickOnItem(item);
+//                    }
+//                });
+//
+//        listaPeliView.setAdapter(lpAdapter);
     }
 
     @Override
@@ -186,8 +197,59 @@ public class MainRecycler extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_recycler);
 
-        fab = (FloatingActionButton)findViewById(R.id.floatingActionButton);
-        fab.setEnabled(false);
+
+//        fab = (FloatingActionButton)findViewById(R.id.floatingActionButton);
+//        fab.setEnabled(false);
+
+        themoviedbApi = ApiUtils.createThemoviedbApi();
+        realizarPeticionPeliculasPopulares(themoviedbApi);
+    }
+
+    private void realizarPeticionPeliculasPopulares(ThemoviedbApi themoviedbApi) {
+        Call<MovieListResult> call = themoviedbApi.getListMovies("popular", API_KEY, LANGUAGE, 1);
+
+        call.enqueue(new Callback<MovieListResult>(){
+            @Override
+            public void onResponse(Call<MovieListResult> call, Response<MovieListResult> response) {
+                switch (response.code()){
+                    case 200: // Respuesta válida
+                        MovieListResult data = response.body();
+                        List<MovieData> listaDatosPeliculas = data.getMovieData();
+                        Log.d("realizarPetPopulares", "ListaDatosPeliculas: " +
+                                listaDatosPeliculas);
+
+                        listaPeli = ServerDataMapper.convertMovieListToDomain(listaDatosPeliculas);
+
+                        listaPeliView = (RecyclerView)findViewById(R.id.recycleView);
+                        listaPeliView.setHasFixedSize(true);
+                        // Establecer el layout manager al recycler view, para colocar los items uno debajo del otro
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                        listaPeliView.setLayoutManager(layoutManager);
+
+                        // Creamos el adapter
+                        ListaPeliculasAdapter lpAdapter = new ListaPeliculasAdapter(listaPeli,
+                                new ListaPeliculasAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(Pelicula item) {
+                                        clickOnItem(item);
+                                    }
+                                });
+
+                        listaPeliView.setAdapter(lpAdapter);
+                        break;
+                    default:
+                        // log para ver código de error
+                        call.cancel();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieListResult> call, Throwable t) {
+                // hay un problema en la conexión
+                Log.e("ErrorPetPopulares", t.getMessage());
+            }
+        });
     }
 
     /**

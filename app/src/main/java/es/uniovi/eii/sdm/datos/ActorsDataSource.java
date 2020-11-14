@@ -145,7 +145,7 @@ public class ActorsDataSource {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            reparto.add(new Actor(cursor.getString(0),
+            reparto.add(new Actor(1, cursor.getString(0),
                     cursor.getString(1),
                     //Añadimos el encabezado de las páginas web
                     "https://image.tmdb.org/t/p/original/" + cursor.getString(2),

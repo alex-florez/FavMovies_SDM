@@ -1,5 +1,6 @@
 package es.uniovi.eii.sdm;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,10 +66,15 @@ public class ListaActoresAdapter extends RecyclerView.Adapter<ListaActoresAdapte
 
         public void bindActor(final Actor actor, final OnItemClickListener listener){
 
+            Log.d("BIND", actor.toString());
             nombre.setText(actor.getNombre());
             personaje.setText(actor.getNombre_personaje());
-            Picasso.get()
-                   .load(actor.getImagen()).into(imagen);
+
+            if(!actor.getImagen().isEmpty()){
+                Picasso.get()
+                        .load(actor.getImagen()).into(imagen);
+            }
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
