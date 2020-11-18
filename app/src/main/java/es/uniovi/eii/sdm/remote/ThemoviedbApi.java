@@ -1,6 +1,6 @@
 package es.uniovi.eii.sdm.remote;
 
-import es.uniovi.eii.sdm.datos.server.actorlist.RepartoResult;
+import es.uniovi.eii.sdm.datos.server.credits.RepartoResult;
 import es.uniovi.eii.sdm.datos.server.movielist.MovieListResult;
 import retrofit2.Call;
 import retrofit2.http.GET;

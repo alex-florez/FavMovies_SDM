@@ -1,10 +1,10 @@
 
-package es.uniovi.eii.sdm.datos.server.actorlist;
+package es.uniovi.eii.sdm.datos.server.credits;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Crew {
+public class Cast {
 
     @SerializedName("adult")
     @Expose
@@ -29,16 +29,19 @@ public class Crew {
     private Double popularity;
     @SerializedName("profile_path")
     @Expose
-    private Object profilePath;
+    private String profilePath;
+    @SerializedName("cast_id")
+    @Expose
+    private Integer castId;
+    @SerializedName("character")
+    @Expose
+    private String character;
     @SerializedName("credit_id")
     @Expose
     private String creditId;
-    @SerializedName("department")
+    @SerializedName("order")
     @Expose
-    private String department;
-    @SerializedName("job")
-    @Expose
-    private String job;
+    private Integer order;
 
     public Boolean getAdult() {
         return adult;
@@ -96,12 +99,28 @@ public class Crew {
         this.popularity = popularity;
     }
 
-    public Object getProfilePath() {
+    public String getProfilePath() {
         return profilePath;
     }
 
-    public void setProfilePath(Object profilePath) {
+    public void setProfilePath(String profilePath) {
         this.profilePath = profilePath;
+    }
+
+    public Integer getCastId() {
+        return castId;
+    }
+
+    public void setCastId(Integer castId) {
+        this.castId = castId;
+    }
+
+    public String getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(String character) {
+        this.character = character;
     }
 
     public String getCreditId() {
@@ -112,20 +131,12 @@ public class Crew {
         this.creditId = creditId;
     }
 
-    public String getDepartment() {
-        return department;
+    public Integer getOrder() {
+        return order;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
-        this.job = job;
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 
 }

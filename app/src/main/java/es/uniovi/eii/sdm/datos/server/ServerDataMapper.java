@@ -3,7 +3,7 @@ package es.uniovi.eii.sdm.datos.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.uniovi.eii.sdm.datos.server.actorlist.Cast;
+import es.uniovi.eii.sdm.datos.server.credits.Cast;
 import es.uniovi.eii.sdm.datos.server.movielist.MovieData;
 import es.uniovi.eii.sdm.modelo.Actor;
 import es.uniovi.eii.sdm.modelo.Categoria;

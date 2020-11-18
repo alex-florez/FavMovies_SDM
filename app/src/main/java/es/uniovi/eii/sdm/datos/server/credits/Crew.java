@@ -1,10 +1,10 @@
 
-package es.uniovi.eii.sdm.datos.server.actorlist;
+package es.uniovi.eii.sdm.datos.server.credits;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Cast {
+public class Crew {
 
     @SerializedName("adult")
     @Expose
@@ -29,19 +29,16 @@ public class Cast {
     private Double popularity;
     @SerializedName("profile_path")
     @Expose
-    private String profilePath;
-    @SerializedName("cast_id")
-    @Expose
-    private Integer castId;
-    @SerializedName("character")
-    @Expose
-    private String character;
+    private Object profilePath;
     @SerializedName("credit_id")
     @Expose
     private String creditId;
-    @SerializedName("order")
+    @SerializedName("department")
     @Expose
-    private Integer order;
+    private String department;
+    @SerializedName("job")
+    @Expose
+    private String job;
 
     public Boolean getAdult() {
         return adult;
@@ -99,28 +96,12 @@ public class Cast {
         this.popularity = popularity;
     }
 
-    public String getProfilePath() {
+    public Object getProfilePath() {
         return profilePath;
     }
 
-    public void setProfilePath(String profilePath) {
+    public void setProfilePath(Object profilePath) {
         this.profilePath = profilePath;
-    }
-
-    public Integer getCastId() {
-        return castId;
-    }
-
-    public void setCastId(Integer castId) {
-        this.castId = castId;
-    }
-
-    public String getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(String character) {
-        this.character = character;
     }
 
     public String getCreditId() {
@@ -131,12 +112,20 @@ public class Cast {
         this.creditId = creditId;
     }
 
-    public Integer getOrder() {
-        return order;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
     }
 
 }

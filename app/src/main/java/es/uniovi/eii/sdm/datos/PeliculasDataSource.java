@@ -108,7 +108,8 @@ public class PeliculasDataSource {
             pelicula.setCategoria(new Categoria(cursor.getString(3), ""));
             pelicula.setDuracion(cursor.getString(4));
             pelicula.setFecha(cursor.getString(5));
-            pelicula.setUrlCaratula("https://image.tmdb.org/t/p/original/" + cursor.getString(6));
+//            pelicula.setUrlCaratula("https://image.tmdb.org/t/p/original/" + cursor.getString(6));
+            pelicula.setUrlCaratula(cursor.getString(6));
             pelicula.setUrlFondo("https://image.tmdb.org/t/p/original/" + cursor.getString(7));
             pelicula.setUrlTrailer("https://youtu.be/" + cursor.getString(8));
 

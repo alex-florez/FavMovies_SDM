@@ -1,5 +1,5 @@
 
-package es.uniovi.eii.sdm.datos.server.actorlist;
+package es.uniovi.eii.sdm.datos.server.credits;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

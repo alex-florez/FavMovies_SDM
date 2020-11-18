@@ -14,15 +14,12 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import es.uniovi.eii.sdm.ListaActoresAdapter;
-import es.uniovi.eii.sdm.ListaPeliculasAdapter;
 import es.uniovi.eii.sdm.R;
 import es.uniovi.eii.sdm.activities.MainRecycler;
-import es.uniovi.eii.sdm.datos.ActorsDataSource;
 import es.uniovi.eii.sdm.datos.server.ServerDataMapper;
-import es.uniovi.eii.sdm.datos.server.actorlist.Cast;
-import es.uniovi.eii.sdm.datos.server.actorlist.RepartoResult;
+import es.uniovi.eii.sdm.datos.server.credits.Cast;
+import es.uniovi.eii.sdm.datos.server.credits.RepartoResult;
 import es.uniovi.eii.sdm.modelo.Actor;
-import es.uniovi.eii.sdm.modelo.Pelicula;
 import es.uniovi.eii.sdm.remote.ApiUtils;
 import es.uniovi.eii.sdm.remote.ThemoviedbApi;
 import retrofit2.Call;
@@ -48,7 +45,6 @@ public class ActoresFragment extends Fragment {
         ThemoviedbApi themoviedbApi = ApiUtils.createThemoviedbApi();
         Call<RepartoResult> call = themoviedbApi.getReparto(this.movieId, MainRecycler.API_KEY);
 
-        Log.d("Hola", "HHola");
         call.enqueue(new Callback<RepartoResult> () {
             @Override
             public void onResponse(Call<RepartoResult> call, Response<RepartoResult> response) {
@@ -101,10 +97,6 @@ public class ActoresFragment extends Fragment {
 //        actorsDataSource.open();
 //        actores = actorsDataSource.actoresParticipantes(peliculaId);
 //        actorsDataSource.close();
-        // Adapter
-
-
-        // Referencias a componentes
         return root;
     }
 }

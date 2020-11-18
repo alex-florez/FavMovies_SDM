@@ -9,6 +9,12 @@
         android:title="@string/menu_item_compartir"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/hacer_fav"
+        android:icon="@drawable/like_gris"
+        android:title="@string/menu_item_hacer_fav"
+        app:showAsAction="ifRoom" />
+
 <!--
     <item
         android:id="@+id/action_settings"

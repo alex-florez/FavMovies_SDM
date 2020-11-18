@@ -64,6 +64,7 @@ public class Pelicula implements Parcelable {
                 ", categoria=" + categoria +
                 ", duracion='" + duracion + '\'' +
                 ", fecha='" + fecha + '\'' +
+                ", urlCaratula='" + urlCaratula + '\'' +
                 '}';
     }
 

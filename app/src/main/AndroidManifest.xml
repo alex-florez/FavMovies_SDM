@@ -13,22 +13,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.MainActivityPrincipal"
+            android:label="@string/title_activity_main_principal"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".activities.MainRecycler"> <!-- para que vuelva a la activity padre -->
         </activity>
-
         <activity
             android:name=".activities.ShowMovie"
             android:label="@string/title_activity_show_movie"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.MainRecycler">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activities.MainRecycler"/>
         <activity android:name=".activities.CategoriaActivity" />
         <activity android:name=".activities.MainActivity" />
     </application>

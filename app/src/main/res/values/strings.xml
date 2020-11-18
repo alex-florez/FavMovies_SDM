@@ -51,6 +51,7 @@
     <string name="desc_imagen_fondo">Imagen de fondo pelicula</string>
     <string name="desc_caratula">Carátula de la película</string>
     <string name="menu_item_compartir">Compartir</string>
+    <string name="menu_item_hacer_fav">Añadir a favoritas</string>
     <string name="menu_item_ajustes">Ajustes</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
 
@@ -70,7 +71,6 @@
     <string name="imagen_actor"></string>
     <string name="nombre_actor"></string>/
     <string name="nombre_personaje"></string>
-
 
 
     <!-- Mensajes para la accesibilidad de los componentes -->
@@ -186,5 +186,15 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title_activity_main_principal">MainActivityPrincipal</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_fav">Favoritas</string>
+    <string name="menu_popular">Populares</string>
+    <string name="menu_slideshow">Slideshow</string>
 
 </resources>

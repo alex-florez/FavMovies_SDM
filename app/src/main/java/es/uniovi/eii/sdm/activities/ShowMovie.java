@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import es.uniovi.eii.sdm.R;
+import es.uniovi.eii.sdm.datos.PeliculasDataSource;
 import es.uniovi.eii.sdm.fragments.ActoresFragment;
 import es.uniovi.eii.sdm.fragments.ArgumentoFragment;
 import es.uniovi.eii.sdm.fragments.InfoFragment;
@@ -139,16 +140,31 @@ public class ShowMovie extends AppCompatActivity {
 //            return true;
 //        }
 
-        if(id == R.id.compartir){
-            Conexion conexion = new Conexion(getApplicationContext());
-            if(conexion.compruebaConexion()){
-                compartirPeli();
-            } else {
-                Toast.makeText(getApplicationContext(), R.string.error_conexion, Toast.LENGTH_LONG)
-                        .show();
-            }
+        switch (id){
+            case R.id.compartir:
+                Conexion conexion = new Conexion(getApplicationContext());
+                if(conexion.compruebaConexion()){
+                    compartirPeli();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.error_conexion, Toast.LENGTH_LONG)
+                            .show();
+                }
+                break;
+
+            case R.id.hacer_fav:
+                // Insertar la pelicula en la base de datos interna
+               addAsFav();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addAsFav(){
+        PeliculasDataSource peliculasDataSource = new PeliculasDataSource(getApplicationContext());
+        peliculasDataSource.open();
+        peliculasDataSource.insertPelicula(this.pelicula);
+        Snackbar.make(findViewById(R.id.app_bar),"Película añadida a favoritas!", Snackbar.LENGTH_LONG).show();
+        peliculasDataSource.close();
     }
 
     public void compartirPeli(){
